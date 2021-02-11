@@ -29,6 +29,9 @@
 		91AF908D25D52487001F5C13 /* Channel.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 91AF908C25D52487001F5C13 /* Channel.storyboard */; };
 		91AF909225D524C6001F5C13 /* Inbox.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 91AF909125D524C6001F5C13 /* Inbox.storyboard */; };
 		91AF909725D524D1001F5C13 /* Library.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 91AF909625D524D1001F5C13 /* Library.storyboard */; };
+		91C4381525D555960035FC0B /* AttentionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91C4381425D555960035FC0B /* AttentionCell.swift */; };
+		91C4381A25D55D9A0035FC0B /* AttentionCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91C4381925D55D9A0035FC0B /* AttentionCollectionViewCell.swift */; };
+		91C4381F25D55E060035FC0B /* AttentionCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 91C4381E25D55E060035FC0B /* AttentionCollectionViewCell.xib */; };
 		F71D3051D9BBF95D1F6573BF /* Pods_YoutubeApp_YoutubeAppUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 99456845BB1997952A2C4F50 /* Pods_YoutubeApp_YoutubeAppUITests.framework */; };
 /* End PBXBuildFile section */
 
@@ -81,6 +84,9 @@
 		91AF908C25D52487001F5C13 /* Channel.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Channel.storyboard; sourceTree = "<group>"; };
 		91AF909125D524C6001F5C13 /* Inbox.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Inbox.storyboard; sourceTree = "<group>"; };
 		91AF909625D524D1001F5C13 /* Library.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Library.storyboard; sourceTree = "<group>"; };
+		91C4381425D555960035FC0B /* AttentionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttentionCell.swift; sourceTree = "<group>"; };
+		91C4381925D55D9A0035FC0B /* AttentionCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttentionCollectionViewCell.swift; sourceTree = "<group>"; };
+		91C4381E25D55E060035FC0B /* AttentionCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AttentionCollectionViewCell.xib; sourceTree = "<group>"; };
 		99456845BB1997952A2C4F50 /* Pods_YoutubeApp_YoutubeAppUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_YoutubeApp_YoutubeAppUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		A3DED066E11C7E23F8C18B13 /* Pods-YoutubeAppTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YoutubeAppTests.release.xcconfig"; path = "Target Support Files/Pods-YoutubeAppTests/Pods-YoutubeAppTests.release.xcconfig"; sourceTree = "<group>"; };
 		A9EB5DD2643125DC8955B363 /* Pods_YoutubeAppTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_YoutubeAppTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -178,6 +184,8 @@
 			isa = PBXGroup;
 			children = (
 				919115D025D2BD96004B230A /* VideoListCell.swift */,
+				91C4381425D555960035FC0B /* AttentionCell.swift */,
+				91C4381925D55D9A0035FC0B /* AttentionCollectionViewCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -186,6 +194,7 @@
 			isa = PBXGroup;
 			children = (
 				919115E125D2BF09004B230A /* VideoListCell.xib */,
+				91C4381E25D55E060035FC0B /* AttentionCollectionViewCell.xib */,
 			);
 			path = Xibs;
 			sourceTree = "<group>";
@@ -371,6 +380,7 @@
 				91006BF525D18C5400F6445E /* LaunchScreen.storyboard in Resources */,
 				91AF908D25D52487001F5C13 /* Channel.storyboard in Resources */,
 				919115E225D2BF09004B230A /* VideoListCell.xib in Resources */,
+				91C4381F25D55E060035FC0B /* AttentionCollectionViewCell.xib in Resources */,
 				91006BF225D18C5400F6445E /* Assets.xcassets in Resources */,
 				91AF909725D524D1001F5C13 /* Library.storyboard in Resources */,
 				91AF905725D50F82001F5C13 /* BaseTabBar.storyboard in Resources */,
@@ -506,8 +516,10 @@
 			files = (
 				91AF906225D5124D001F5C13 /* BaseTabBarController.swift in Sources */,
 				91006BED25D18C5300F6445E /* ViewController.swift in Sources */,
+				91C4381A25D55D9A0035FC0B /* AttentionCollectionViewCell.swift in Sources */,
 				91AF904C25D4F0C6001F5C13 /* API.swift in Sources */,
 				91AF904325D4CD87001F5C13 /* Channel.swift in Sources */,
+				91C4381525D555960035FC0B /* AttentionCell.swift in Sources */,
 				91AF907425D51897001F5C13 /* UIImage-Extention.swift in Sources */,
 				919115D125D2BD96004B230A /* VideoListCell.swift in Sources */,
 				91006BE925D18C5300F6445E /* AppDelegate.swift in Sources */,
