@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17126"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="collection view cell content view" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="YoutubeApp" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="aEM-dL-Gl1">
+                                <rect key="frame" x="0.0" y="104" width="414" height="758"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="zkB-7F-EbE">
+                                    <size key="itemSize" width="128" height="128"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="GrG-S6-tpl">
+                                        <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="fTF-bH-fr5">
+                                            <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </collectionViewCellContentView>
+                                    </collectionViewCell>
+                                </cells>
+                            </collectionView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Vmp-2M-Lth">
+                                <rect key="frame" x="0.0" y="44" width="414" height="60"/>
+                                <subviews>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="YouTube_icon" translatesAutoresizingMaskIntoConstraints="NO" id="sGZ-zP-QHz">
+                                        <rect key="frame" x="10" y="5" width="50" height="50"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="50" id="7H2-LM-zQ5"/>
+                                            <constraint firstAttribute="height" constant="50" id="Yk6-J4-Ftn"/>
+                                        </constraints>
+                                    </imageView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="YouTube" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Lvx-qr-l1K">
+                                        <rect key="frame" x="63" y="18" width="81" height="24"/>
+                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
+                                        <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="moon" translatesAutoresizingMaskIntoConstraints="NO" id="btf-dE-fp0">
+                                        <rect key="frame" x="354" y="10" width="40" height="40"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="40" id="MPl-D3-IC4"/>
+                                            <constraint firstAttribute="width" secondItem="btf-dE-fp0" secondAttribute="height" multiplier="1:1" id="mYj-5b-e9B"/>
+                                        </constraints>
+                                    </imageView>
+                                    <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="e1a-2S-zdi">
+                                        <rect key="frame" x="326" y="17.5" width="25" height="25"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="25" id="5hN-xB-wW7"/>
+                                            <constraint firstAttribute="width" secondItem="e1a-2S-zdi" secondAttribute="height" multiplier="1:1" id="iF8-oX-jZx"/>
+                                        </constraints>
+                                        <state key="normal" image="search"/>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Rus-LL-rzH">
+                                        <rect key="frame" x="298" y="17.5" width="25" height="25"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="25" id="1Tz-ka-yuN"/>
+                                            <constraint firstAttribute="width" secondItem="Rus-LL-rzH" secondAttribute="height" multiplier="1:1" id="suq-sb-4hY"/>
+                                        </constraints>
+                                        <state key="normal" image="video-camera"/>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstItem="btf-dE-fp0" firstAttribute="centerY" secondItem="Vmp-2M-Lth" secondAttribute="centerY" id="2pj-Us-yRd"/>
+                                    <constraint firstItem="e1a-2S-zdi" firstAttribute="leading" secondItem="Rus-LL-rzH" secondAttribute="trailing" constant="3" id="Jev-2m-B8h"/>
+                                    <constraint firstItem="sGZ-zP-QHz" firstAttribute="centerY" secondItem="Vmp-2M-Lth" secondAttribute="centerY" id="P2X-qQ-9oe"/>
+                                    <constraint firstItem="sGZ-zP-QHz" firstAttribute="leading" secondItem="Vmp-2M-Lth" secondAttribute="leading" constant="10" id="XLM-yg-VO1"/>
+                                    <constraint firstItem="Lvx-qr-l1K" firstAttribute="centerY" secondItem="Vmp-2M-Lth" secondAttribute="centerY" id="YxF-5H-rJ4"/>
+                                    <constraint firstAttribute="trailing" secondItem="btf-dE-fp0" secondAttribute="trailing" constant="20" id="aHk-kf-nyG"/>
+                                    <constraint firstItem="btf-dE-fp0" firstAttribute="leading" secondItem="e1a-2S-zdi" secondAttribute="trailing" constant="3" id="dYF-OO-TkS"/>
+                                    <constraint firstItem="Rus-LL-rzH" firstAttribute="centerY" secondItem="Vmp-2M-Lth" secondAttribute="centerY" id="do3-fH-0zs"/>
+                                    <constraint firstItem="e1a-2S-zdi" firstAttribute="centerY" secondItem="Vmp-2M-Lth" secondAttribute="centerY" id="eib-qi-gZ1"/>
+                                    <constraint firstAttribute="height" constant="60" id="jCu-LZ-nnq"/>
+                                    <constraint firstItem="Lvx-qr-l1K" firstAttribute="leading" secondItem="sGZ-zP-QHz" secondAttribute="trailing" constant="3" id="qVf-qr-EdO"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="Vmp-2M-Lth" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="Kg1-Om-g69"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="Vmp-2M-Lth" secondAttribute="trailing" id="Y7j-sc-wEZ"/>
+                            <constraint firstItem="aEM-dL-Gl1" firstAttribute="top" secondItem="Vmp-2M-Lth" secondAttribute="bottom" id="YP6-V4-MI1"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="aEM-dL-Gl1" secondAttribute="bottom" id="a5J-rv-Evc"/>
+                            <constraint firstItem="Vmp-2M-Lth" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="jS6-Ci-8sb"/>
+                            <constraint firstItem="aEM-dL-Gl1" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="jwx-Ex-Vdh"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="aEM-dL-Gl1" secondAttribute="trailing" id="wuI-S5-QF3"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="headerHeightConstraint" destination="jCu-LZ-nnq" id="rfO-Y7-3tm"/>
+                        <outlet property="headerTopConstraint" destination="Kg1-Om-g69" id="TrU-cC-mX7"/>
+                        <outlet property="headerView" destination="Vmp-2M-Lth" id="Fqf-nc-Woc"/>
+                        <outlet property="profileImageView" destination="btf-dE-fp0" id="ASK-3F-ITK"/>
+                        <outlet property="videoListCollectionView" destination="aEM-dL-Gl1" id="wYE-bq-QfJ"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="137.68115942028987" y="137.94642857142856"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="YouTube_icon" width="72" height="72"/>
+        <image name="moon" width="180" height="256"/>
+        <image name="search" width="48" height="48"/>
+        <image name="video-camera" width="48" height="48"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>
