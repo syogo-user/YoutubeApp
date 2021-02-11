@@ -55,9 +55,18 @@ class ViewController: UIViewController {
         }
     }
     
+}
+
+// MARK: - scrollViewのDelegateメソッド
+extension ViewController{
+    //scrollViewがscroollしたときに呼ばれるメソッド
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         //今どのくらいスクロールしているかわかるメソッド （もともと持っているメソッド）
-        
+        headerAnimation(scrollView: scrollView)
+                    
+    }
+    
+    private func headerAnimation(scrollView:UIScrollView){
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
             //0.5秒ごとのスクロール位置情報を保持する (0.5ごとに呼ばれる）
             self.prevContentOffset = scrollView.contentOffset
@@ -73,7 +82,6 @@ class ViewController: UIViewController {
         if presentIndexPath.row >= videoItems.count - 2 {return}
         
         let alphaRatio = 1 / headerHeightConstraint.constant//ここは0.1とかの固定の数字でも良い気がする。headerHeightConstraint.constantで割る必要はないかも
-//        print("headerHeightConstraint.constant",headerHeightConstraint.constant ,"alphaRatio",alphaRatio)
         if self.prevContentOffset.y < scrollView.contentOffset.y{
             //0.5秒前のスクロールが今のスクロールより小さい場合 =下にスクロールしている
             if headerTopConstraint.constant <= -headerHeightConstraint.constant {return}//ヘッダーの高さを超えたらreturn
@@ -90,11 +98,9 @@ class ViewController: UIViewController {
             //ヘッダーの薄さ
             headerView.alpha += alphaRatio * headerMoveHeight
         }
-                    
-//        print("self.prevContentOffset:", self.prevContentOffset ,"scrollView.contentOffset:",scrollView.contentOffset)
     }
     
-    
+    //scrollViewのscrollがピタッと止まったときに呼ばれる
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         //　ドラッグが終わって指が離れた。減速しつつも慣性でその後もスクロールがある場合はdecelerateがYESになっている。
         if !decelerate {
@@ -104,6 +110,7 @@ class ViewController: UIViewController {
 
     }
     
+    //scrollViewが止まったときに呼ばれる
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         //　スクロールが急停止した際に呼ばれる。
         headerViewEndAnimation()
@@ -128,8 +135,10 @@ class ViewController: UIViewController {
             }
         }
     }
+
 }
 
+//  MARK: - UICollectionViewDelegate,UICollectionViewDataSource , UICollectionViewDelegateFlowLayout
 extension ViewController:UICollectionViewDelegate,UICollectionViewDataSource , UICollectionViewDelegateFlowLayout{
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
