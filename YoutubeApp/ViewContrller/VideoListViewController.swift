@@ -8,7 +8,7 @@
 import UIKit
 import Alamofire
 
-class ViewController: UIViewController {
+class VideoListViewController: UIViewController {
 
     private let cellId = "cellId"
     private let atentionCellId = "atentionCellId"
@@ -62,7 +62,7 @@ class ViewController: UIViewController {
 }
 
 // MARK: - scrollViewのDelegateメソッド
-extension ViewController{
+extension VideoListViewController{
     //scrollViewがscroollしたときに呼ばれるメソッド
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         //今どのくらいスクロールしているかわかるメソッド （もともと持っているメソッド）
@@ -143,8 +143,19 @@ extension ViewController{
 }
 
 //  MARK: - UICollectionViewDelegate,UICollectionViewDataSource , UICollectionViewDelegateFlowLayout
-extension ViewController:UICollectionViewDelegate,UICollectionViewDataSource , UICollectionViewDelegateFlowLayout{
+extension VideoListViewController:UICollectionViewDelegate,UICollectionViewDataSource , UICollectionViewDelegateFlowLayout{
     
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        //セルをタップしたときに呼ばれる。
+        
+        let videoViewController = UIStoryboard(name: "Video", bundle: nil).instantiateViewController(identifier: "VideoViewController")as VideoViewController
+        videoViewController.modalPresentationStyle = .fullScreen
+
+        //三項演算子
+        videoViewController.selectedItem  = indexPath.row > 2 ? videoItems[indexPath.row - 1] : videoItems[indexPath.row]
+        self.present(videoViewController,animated: true,completion: nil)
+    }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let width = self.view.frame.width
         
