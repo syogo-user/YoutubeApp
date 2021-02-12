@@ -150,7 +150,6 @@ extension VideoListViewController:UICollectionViewDelegate,UICollectionViewDataS
         //セルをタップしたときに呼ばれる。
         
         let videoViewController = UIStoryboard(name: "Video", bundle: nil).instantiateViewController(identifier: "VideoViewController")as VideoViewController
-        videoViewController.modalPresentationStyle = .fullScreen
 
         //三項演算子
         videoViewController.selectedItem  = indexPath.row > 2 ? videoItems[indexPath.row - 1] : videoItems[indexPath.row]

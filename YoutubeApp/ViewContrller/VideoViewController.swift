@@ -8,19 +8,68 @@
 import UIKit
 import Nuke
 class VideoViewController:UIViewController{
-    
+
     var selectedItem :Item?
+    
+    private var imageViewCenterY :CGFloat?
+    var videoImageMaxY:CGFloat {
+        let ecludeValue = view.safeAreaInsets.bottom  + (imageViewCenterY ?? 0)
+        //viewの高さー bottomのsafeArea + (写真の半分の高さ)
+        return view.frame.maxY - ecludeValue
+    }
+
+    //videoImageView
     @IBOutlet weak var videoImageView: UIImageView!
+    @IBOutlet weak var videoImageViewTrailingConstraint: NSLayoutConstraint!
+    @IBOutlet weak var videoImageViewLeadingConstraint: NSLayoutConstraint!
+    @IBOutlet weak var videoImageViewHeightConstraint: NSLayoutConstraint!
+    
+    
+    //videoImageBackView
+    @IBOutlet weak var videoImageBackView: UIView!
+    
+    //backView 白いところ
+    @IBOutlet weak var backView: UIView!
+    @IBOutlet weak var backViewTrailingConstraint: NSLayoutConstraint!
+    @IBOutlet weak var backViewTopConstraint: NSLayoutConstraint!
+    
+    @IBOutlet weak var backViewBottomConstraint: NSLayoutConstraint!
+    
+    //describeView
+    @IBOutlet weak var describeView: UIView!
+    @IBOutlet weak var describeViewTopConstraint: NSLayoutConstraint!
+    
+    
     @IBOutlet weak var channelImageView: UIImageView!
     @IBOutlet weak var videoTitleLabel: UILabel!
     @IBOutlet weak var channelTitleLabel: UILabel!
+    @IBOutlet weak var baseBackGroundView: UIView!
+
+
+
+
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setupViews()
     }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        //全部のビューた出たあとに呼ばれる
+        UIView.animate(withDuration: 0.3) {
+            self.baseBackGroundView.alpha = 1
+        }
+        
+    }
     private func setupViews(){
+        //最前面に持ってくる
+        self.view.bringSubviewToFront(videoImageView)
+        
+        imageViewCenterY = videoImageView.center.y
+        
         channelImageView.layer.cornerRadius = 45 / 2
         
         if let url = URL(string: selectedItem?.snippet.thumbnails.medium.url ?? ""){
@@ -32,5 +81,98 @@ class VideoViewController:UIViewController{
         
         videoTitleLabel.text = selectedItem?.snippet.title
         channelTitleLabel.text = selectedItem?.channel?.items[0].snippet.title
+        let panGesture = UIPanGestureRecognizer(target: self, action: #selector(panVideoImageView))
+        videoImageView.addGestureRecognizer(panGesture)
+        
+    }
+    @objc private func panVideoImageView(gesture:UIPanGestureRecognizer){
+        guard let imageView = gesture.view else{return}
+        let move = gesture.translation(in: imageView)
+        if gesture.state == .changed{
+            
+            if videoImageMaxY <= move.y {
+                moveToBottom(imageView: imageView as! UIImageView)
+                return
+            }
+            
+            //動いているとき
+            imageView.transform = CGAffineTransform(translationX: 0, y: move.y)//動いた分yを動かす
+            videoImageBackView.transform = CGAffineTransform(translationX: 0, y: move.y)
+            
+            let movingConstant = move.y / 30
+
+            if videoImageViewLeadingConstraint.constant <= 12{
+                //左右のpadding設定
+                videoImageViewTrailingConstraint.constant = movingConstant
+                videoImageViewLeadingConstraint.constant = movingConstant
+                
+                backViewTrailingConstraint.constant = movingConstant
+
+                
+            }
+            //imageViewの高さの動き
+            //280（最大値）　ー　70（最小値）　＝210
+            let parentViewHeight = self.view.frame.height
+            let heightRatio =  210 / (parentViewHeight - (parentViewHeight / 6))
+            let moveHeight = move.y * heightRatio
+                
+            backViewTopConstraint.constant = move.y
+            videoImageViewHeightConstraint.constant = 280 - moveHeight
+            describeViewTopConstraint.constant = move.y * 0.8
+            
+            let bottomMoveY = parentViewHeight - videoImageMaxY
+            let bottomMoveRatio = bottomMoveY / videoImageMaxY
+            let bottomMoveConstant = move.y * bottomMoveRatio
+            backViewBottomConstraint.constant = bottomMoveConstant
+            
+            //imageViewの横幅の動き150（最小）
+            let originalWidth = self.view.frame.width
+            //画像の最小
+            let minimumImageViewTrailingConstant = -(originalWidth - (150 + 12))
+            let constant = originalWidth - move.y
+            
+            
+            //aopha値の設定 0薄い　1濃い
+            let alphaRatio = move.y / ( parentViewHeight / 2 )
+            describeView.alpha = 1 - alphaRatio
+            print(alphaRatio)
+            
+            
+            
+            if minimumImageViewTrailingConstant > constant {
+                videoImageViewTrailingConstraint.constant = -minimumImageViewTrailingConstant
+                return
+            }
+            if constant < -12 {
+                videoImageViewTrailingConstraint.constant = -constant
+            }
+            
+            
+
+        }else  if gesture.state == .ended {
+            //手を離したとき
+            UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.8, options: [],animations:  {
+                self.backToIdentityAllViews(imageView: imageView as! UIImageView)
+            } )
+
+
+        }
+        
+        
+    
+    }
+    private func moveToBottom(imageView:UIImageView){
+//        移動させる
+        imageView.transform = CGAffineTransform(translationX: 0, y: videoImageMaxY)
+        self.videoImageBackView.transform = CGAffineTransform(translationX: 0, y: videoImageMaxY)
+        self.backView.transform = CGAffineTransform(translationX: 0, y: videoImageMaxY)
+
+    }
+    private func backToIdentityAllViews(imageView:UIImageView){
+        imageView.transform = .identity//もとの位置に
+        self.videoImageViewHeightConstraint.constant = 280
+        self.videoImageViewLeadingConstraint.constant = 0
+        self.videoImageViewTrailingConstraint.constant = 0
+        self.view.layoutIfNeeded()
     }
 }
