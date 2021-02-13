@@ -23,7 +23,7 @@ class API{
         let path = path.rawValue //rawValueはStringに変換してくれる
         let url = baseUrl + path + "?"
         var params = params
-        params["key"] = "AIzaSyAi13SHMzyTdnh0me0LhDXdOwZkVgIGnH4"
+        params["key"] = "AIzaSyCxgMb9ErrplXhasAXVKCK2nW_otYbNSEs"
         params["part"] = "snippet"
 
         
