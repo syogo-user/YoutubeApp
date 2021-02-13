@@ -36,19 +36,19 @@
                                 </constraints>
                             </imageView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="w3n-gn-FLU">
-                                <rect key="frame" x="0.0" y="324" width="352" height="572"/>
+                                <rect key="frame" x="0.0" y="324" width="414" height="572"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="Kvn-kP-rFJ">
-                                        <rect key="frame" x="10" y="10" width="332" height="36.5"/>
+                                        <rect key="frame" x="10" y="10" width="394" height="36.5"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ビデオのタイトル" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="P4D-FC-4O0">
-                                                <rect key="frame" x="0.0" y="0.0" width="332" height="19.5"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="394" height="19.5"/>
                                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="180万回・1年前" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xbb-fz-a7g">
-                                                <rect key="frame" x="0.0" y="19.5" width="332" height="17"/>
+                                                <rect key="frame" x="0.0" y="19.5" width="394" height="17"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                 <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <nil key="highlightedColor"/>
@@ -56,7 +56,7 @@
                                         </subviews>
                                     </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="Iti-eT-srB">
-                                        <rect key="frame" x="10" y="56.5" width="332" height="45"/>
+                                        <rect key="frame" x="10" y="56.5" width="394" height="45"/>
                                         <subviews>
                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="pBR-Xx-DfH">
                                                 <rect key="frame" x="0.0" y="0.0" width="45" height="45"/>
@@ -67,16 +67,16 @@
                                                 </constraints>
                                             </imageView>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="0aD-df-F3K">
-                                                <rect key="frame" x="53" y="0.0" width="171" height="45"/>
+                                                <rect key="frame" x="53" y="0.0" width="233" height="45"/>
                                                 <subviews>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="チャンネル名" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2WD-RU-ukc">
-                                                        <rect key="frame" x="0.0" y="0.0" width="171" height="22.5"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="233" height="22.5"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                         <nil key="textColor"/>
                                                         <nil key="highlightedColor"/>
                                                     </label>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="チャンネル登録者数1.20万人" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="y9f-dP-23T">
-                                                        <rect key="frame" x="0.0" y="22.5" width="171" height="22.5"/>
+                                                        <rect key="frame" x="0.0" y="22.5" width="233" height="22.5"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                         <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         <nil key="highlightedColor"/>
@@ -84,7 +84,7 @@
                                                 </subviews>
                                             </stackView>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="L2P-uu-NXm">
-                                                <rect key="frame" x="232" y="0.0" width="100" height="45"/>
+                                                <rect key="frame" x="294" y="0.0" width="100" height="45"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="100" id="5zv-lg-3af"/>
                                                 </constraints>
@@ -123,10 +123,10 @@
                             <constraint firstItem="wyp-pu-RXi" firstAttribute="leading" secondItem="JJV-hf-05T" secondAttribute="leading" id="QMV-j7-Too"/>
                             <constraint firstAttribute="bottom" secondItem="wyp-pu-RXi" secondAttribute="bottom" id="R6Y-Ue-iMc"/>
                             <constraint firstItem="wyp-pu-RXi" firstAttribute="top" secondItem="eL2-km-Qr8" secondAttribute="top" id="RCG-AZ-ynL"/>
-                            <constraint firstItem="ueP-7t-W04" firstAttribute="trailing" secondItem="VOW-cT-9sL" secondAttribute="trailing" id="VCJ-6G-gRk"/>
+                            <constraint firstItem="ueP-7t-W04" firstAttribute="trailing" secondItem="w3n-gn-FLU" secondAttribute="trailing" id="VCJ-6G-gRk"/>
                             <constraint firstItem="VOW-cT-9sL" firstAttribute="top" secondItem="sb2-Qu-L8d" secondAttribute="top" id="bfh-99-7Hb"/>
-                            <constraint firstItem="ueP-7t-W04" firstAttribute="trailing" secondItem="sb2-Qu-L8d" secondAttribute="trailing" id="gfQ-Yq-UgC"/>
                             <constraint firstItem="sb2-Qu-L8d" firstAttribute="top" secondItem="JJV-hf-05T" secondAttribute="top" id="hFf-t7-khi"/>
+                            <constraint firstItem="VOW-cT-9sL" firstAttribute="trailing" secondItem="ueP-7t-W04" secondAttribute="trailing" id="kQM-vj-bhJ"/>
                             <constraint firstItem="ueP-7t-W04" firstAttribute="trailing" secondItem="eL2-km-Qr8" secondAttribute="trailing" id="lIs-ou-ek1"/>
                             <constraint firstItem="ueP-7t-W04" firstAttribute="bottom" secondItem="w3n-gn-FLU" secondAttribute="bottom" id="vCG-ry-QV6"/>
                             <constraint firstItem="w3n-gn-FLU" firstAttribute="top" secondItem="sb2-Qu-L8d" secondAttribute="bottom" id="vCW-Ec-bRx"/>
