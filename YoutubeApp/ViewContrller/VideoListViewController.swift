@@ -15,7 +15,7 @@ class VideoListViewController: UIViewController {
     private let atentionCellId = "atentionCellId"
     private var videoItems = [Item]()
     private let headerMoveHeight :CGFloat = 5
-    private var selectedItem : Item?
+    var selectedItem : Item?
 
     private var prevContentOffset :CGPoint = .init(x:0,y:0)    //0.5秒前のスクロール位置
     
@@ -50,9 +50,10 @@ class VideoListViewController: UIViewController {
         super.viewDidLoad()
         setupViews()
         fetchYoutubeSearchInfo()
+        
         setupGestureRecognize()
-        //videoViewControllerからうけとるpostが呼ばれたときにここが呼ばれる
-        NotificationCenter.default.addObserver(self, selector: #selector(showThubnaiImage), name: .init("thumbnailImage"), object: nil)
+        setupNotifications()
+   
         
     }
     //MARK:Methods
@@ -70,6 +71,20 @@ class VideoListViewController: UIViewController {
         bottomVideoImageView.image = image
         bottomVideoTitleLabel.text = self.selectedItem?.snippet.title
         bottomVideoDescribeLabel.text = self.selectedItem?.snippet.description
+    }
+    
+    private func setupNotifications(){
+        //videoViewControllerからうけとるpostが呼ばれたときにここが呼ばれる
+        NotificationCenter.default.addObserver(self, selector: #selector(showThubnaiImage), name: .init("thumbnailImage"), object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(showSearchedItem), name: .init("searchedItem"), object: nil)
+    }
+    @objc private  func showSearchedItem(){
+        let videoViewController = UIStoryboard(name: "Video", bundle: nil).instantiateViewController(identifier: "VideoViewController")as VideoViewController
+        videoViewController.selectedItem = self.selectedItem
+
+        bottomVideoView.isHidden = true
+        self.present(videoViewController,animated: true,completion: nil)
     }
     
     private func setupViews(){

@@ -222,6 +222,7 @@ class VideoViewController:UIViewController{
         //元の位置に戻す
         //imageViewの設定
         imageView.transform = .identity//もとの位置に
+        videoImageBackView.transform = .identity
         self.videoImageViewHeightConstraint.constant = 280
         self.videoImageViewLeadingConstraint.constant = 0
         self.videoImageViewTrailingConstraint.constant = 0

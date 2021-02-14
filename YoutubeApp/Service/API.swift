@@ -38,6 +38,7 @@ class API{
                     //T　ジェネリクス
                     let value = try decorder.decode(T.self, from: data)
                     
+                    //受け取ったコールバック関数を実行
                     completion(value)
                 }catch{
                     print("変換に失敗しました。：",error)
