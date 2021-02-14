@@ -92,87 +92,114 @@ class VideoViewController:UIViewController{
         let move = gesture.translation(in: imageView)
         if gesture.state == .changed{
             //動いているとき
-            
-            
+                        
             if videoImageMaxY <= move.y {
                 moveToBottom(imageView: imageView as! UIImageView)
                 return
             }
-            
-            
             imageView.transform = CGAffineTransform(translationX: 0, y: move.y)//動いた分yを動かす
             videoImageBackView.transform = CGAffineTransform(translationX: 0, y: move.y)
+            //左右のpadding設定
+            adjustPaddingChange(move: move)
             
-            let movingConstant = move.y / 30
-
-            if videoImageViewLeadingConstraint.constant <= 12{
-                //左右のpadding設定
-                videoImageViewTrailingConstraint.constant = movingConstant
-                videoImageViewLeadingConstraint.constant = movingConstant
-                
-                backViewTrailingConstraint.constant = movingConstant
-
-                
-            }
             //imageViewの高さの動き
-            //280（最大値）　ー　70（最小値）　＝210
-            let parentViewHeight = self.view.frame.height
-            let heightRatio =  210 / (parentViewHeight - (parentViewHeight / 6))
-            let moveHeight = move.y * heightRatio
-                
-            backViewTopConstraint.constant = move.y
-            videoImageViewHeightConstraint.constant = 280 - moveHeight
-            describeViewTopConstraint.constant = move.y * 0.8
-            
-            //下からせり上がる
-            let bottomMoveY = parentViewHeight - videoImageMaxY
-            let bottomMoveRatio = bottomMoveY / videoImageMaxY
-            let bottomMoveConstant = move.y * bottomMoveRatio
-            backViewBottomConstraint.constant = bottomMoveConstant
-            
-            //imageViewの横幅の動き150（最小）
-            let originalWidth = self.view.frame.width
-            let constant = originalWidth - move.y
-            
+            adjustHeightChange(move: move)
             
             //aopha値の設定 0薄い　1濃い
-            let alphaRatio = move.y / ( parentViewHeight / 2 )
-            describeView.alpha = 1 - alphaRatio
-            baseBackGroundView.alpha = 1 - alphaRatio
+            adjustAlphaChange(move: move)
             
-            
-            if minimumImageViewTrailingConstant > constant {
-                videoImageViewTrailingConstraint.constant = minimumImageViewTrailingConstant
-                return
-            }
-            if constant < -12 {
-                videoImageViewTrailingConstraint.constant = -constant
-            }
+            //imageViewの横幅の動き150（最小）
+            adjustWidthChange(move: move)
             
             
         }else  if gesture.state == .ended {
-            print(move.y,self.view.frame.height / 3)
-            //手を離したとき
-            if move.y < self.view.frame.height / 3 {
-                //移動している位置が,画面の3分の1の高さよりも小さかったら、上に戻す
-                UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.8, options: [],animations:  {
-                    self.backToIdentityAllViews(imageView: imageView as! UIImageView)
-                } )
-            }else{
-                //移動している位置が,画面の3分の1の高さよりも大きかった、下に固定する
-                UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.8, options: []) {
-                    self.moveToBottom(imageView: imageView as! UIImageView)
-                }
-
-            }
-            
-
-
-
+            self.imageViewEndedAnimation(move: move, imageView: imageView as! UIImageView)
         }
         
         
     
+    }
+    
+//MARK: imageViewのpanGestureのstatusが[.change]のときの動き
+    private func adjustPaddingChange(move:CGPoint){
+        //左右のpaddingの設定
+        let movingConstant = move.y / 30
+        if videoImageViewLeadingConstraint.constant <= 12{
+            videoImageViewTrailingConstraint.constant = movingConstant
+            videoImageViewLeadingConstraint.constant = movingConstant
+            backViewTrailingConstraint.constant = movingConstant
+        }
+    }
+    private func adjustHeightChange(move:CGPoint){
+        //280（最大値）　ー　70（最小値）　＝210
+        let parentViewHeight = self.view.frame.height
+        let heightRatio =  210 / (parentViewHeight - (parentViewHeight / 6))
+//        let heightRatio =  210 / (parentViewHeight - videoImageMaxY) //これにするとおかしくなるため上記を残す　TODO
+        let moveHeight = move.y * heightRatio
+            
+        backViewTopConstraint.constant = move.y
+        videoImageViewHeightConstraint.constant = 280 - moveHeight
+        describeViewTopConstraint.constant = move.y * 0.8
+        
+        //下からせり上がる
+        let bottomMoveY = parentViewHeight - videoImageMaxY
+        let bottomMoveRatio = bottomMoveY / videoImageMaxY
+        let bottomMoveConstant = move.y * bottomMoveRatio
+        backViewBottomConstraint.constant = bottomMoveConstant
+        
+
+    }
+    private func adjustAlphaChange(move:CGPoint){
+        //aopha値の設定 0薄い　1濃い
+        let alphaRatio = move.y / ( self.view.frame.height / 2 )
+        describeView.alpha = 1 - alphaRatio
+        baseBackGroundView.alpha = 1 - alphaRatio
+    }
+    
+    private func adjustWidthChange(move :CGPoint){
+        let originalWidth = self.view.frame.width
+        let constant = originalWidth - move.y
+        
+        if minimumImageViewTrailingConstant > constant {
+            videoImageViewTrailingConstraint.constant = minimumImageViewTrailingConstant
+            return
+        }
+        if constant < -12 {
+            videoImageViewTrailingConstraint.constant = -constant
+        }
+    }
+    
+    //    MARK: imageViewのpanGestureのstatusが[.ended]のときの動き
+    private func imageViewEndedAnimation(move:CGPoint,imageView:UIImageView){
+        print(move.y,self.view.frame.height / 3)
+        //手を離したとき
+        if move.y < self.view.frame.height / 3 {
+            //移動している位置が,画面の3分の1の高さよりも小さかったら、上に戻す
+            UIView.animate(withDuration: 0.3, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0.8, options: [],animations:  {
+                self.backToIdentityAllViews(imageView: imageView)
+            } )
+        }else{
+            //移動している位置が,画面の3分の1の高さよりも大きかった、下に固定する
+            UIView.animate(withDuration: 0.4, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0.7, options: []) {
+                self.moveToBottom(imageView: imageView )
+            } completion: { _ in
+                UIView.animate(withDuration: 0.2) {
+
+                    self.videoImageView.isHidden = true
+                    self.videoImageBackView.isHidden = true
+                    
+                    let image = self.videoImageView.image
+                    let userInfo:[String:UIImage?] = ["image":image]
+//                    let userInfo:[String :Any] = ["image":image,"videoImageMinY":self.videoImageView.frame.minY]
+//                    print("self.videoImageView.frame.minY",self.videoImageView.frame.minY)
+                    //情報(userInfo)をpostにわたす
+                    NotificationCenter.default.post(name: .init("thumbnailImage"), object: nil, userInfo: userInfo as [AnyHashable : Any])
+
+                } completion: { _ in
+                    self.dismiss(animated: false, completion: nil)
+                }
+            }
+        }
     }
     private func moveToBottom(imageView:UIImageView){
 //        移動させる
@@ -180,6 +207,9 @@ class VideoViewController:UIViewController{
         imageView.transform = CGAffineTransform(translationX: 0, y: videoImageMaxY)
         videoImageViewTrailingConstraint.constant = -minimumImageViewTrailingConstant
         videoImageViewHeightConstraint.constant = 70
+        videoImageViewLeadingConstraint.constant = 12
+        
+        
         
         self.videoImageBackView.transform = CGAffineTransform(translationX: 0, y: videoImageMaxY)
         backView.alpha = 0

@@ -9,32 +9,102 @@ import UIKit
 import Alamofire
 
 class VideoListViewController: UIViewController {
-
+    
+    //MARK: Properties
     private let cellId = "cellId"
     private let atentionCellId = "atentionCellId"
     private var videoItems = [Item]()
     private let headerMoveHeight :CGFloat = 5
+    private var selectedItem : Item?
 
     private var prevContentOffset :CGPoint = .init(x:0,y:0)    //0.5秒前のスクロール位置
+    
+
+    @IBOutlet weak var videoListCollectionView: UICollectionView!
+    @IBOutlet weak var profileImageView: UIImageView!
     @IBOutlet weak var headerView: UIView!
     @IBOutlet weak var headerHeightConstraint: NSLayoutConstraint!
     @IBOutlet weak var headerTopConstraint: NSLayoutConstraint!
-    @IBOutlet weak var profileImageView: UIImageView!
     
-    @IBOutlet weak var videoListCollectionView: UICollectionView!
+    @IBOutlet weak var bottomVideoView: UIView!
+    @IBOutlet weak var bottomVideoImageView: UIImageView!
+    @IBOutlet weak var searchButton: UIButton!
     
+    //bottomImageViewの制約
+    @IBOutlet weak var bottomViedeoViewTraling: NSLayoutConstraint!
+    @IBOutlet weak var bottomVideoViewLeading: NSLayoutConstraint!
+    @IBOutlet weak var bottomVideoViewHeight: NSLayoutConstraint!
+    @IBOutlet weak var bottomVideoViewBottom: NSLayoutConstraint!
+    @IBOutlet weak var bottomVideoImageWidth: NSLayoutConstraint!
+    @IBOutlet weak var bottomVideoImageHeight: NSLayoutConstraint!
+
+    @IBOutlet weak var bottomSubscribeView: UIView!
+    @IBOutlet weak var bottomCloseButton: UIButton!
+    @IBOutlet weak var bottomVideoTitleLabel: UILabel!
+    @IBOutlet weak var bottomVideoDescribeLabel: UILabel!
+    
+    
+    
+    //MARK:LifeCycle Methods
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
         fetchYoutubeSearchInfo()
+        setupGestureRecognize()
+        //videoViewControllerからうけとるpostが呼ばれたときにここが呼ばれる
+        NotificationCenter.default.addObserver(self, selector: #selector(showThubnaiImage), name: .init("thumbnailImage"), object: nil)
+        
     }
+    //MARK:Methods
+    @objc private func showThubnaiImage(notification:NSNotification){
+        guard let userInfo = notification.userInfo as? [String:UIImage] ,
+              let image = userInfo["image"] else{return}
+//        let videoImageMinY = userInfo["videoImageMinY"] as? CGFloat ?? 0
+//        let diffBottomConstant  = videoImageMinY - self.bottomVideoView.frame.minY
+//        print("videoImageMinY",videoImageMinY ,"self.bottomVideoView.frame.minY",self.bottomVideoView.frame.minY)
+//        bottomVideoViewBottom.constant -= diffBottomConstant //これをするとずれるため TODO
+        bottomVideoViewBottom.constant = 30 //TODO
+        
+        bottomSubscribeView.isHidden = false
+        bottomVideoView.isHidden = false
+        bottomVideoImageView.image = image
+        bottomVideoTitleLabel.text = self.selectedItem?.snippet.title
+        bottomVideoDescribeLabel.text = self.selectedItem?.snippet.description
+    }
+    
     private func setupViews(){
+        
         videoListCollectionView.delegate = self
         videoListCollectionView.dataSource = self
         videoListCollectionView.register(UINib(nibName: "VideoListCell", bundle: nil), forCellWithReuseIdentifier: cellId)
         videoListCollectionView.register(AttentionCell.self, forCellWithReuseIdentifier: atentionCellId)
         profileImageView.layer.cornerRadius = 20
+        
+        view.bringSubviewToFront(bottomVideoView)
+        bottomVideoView.isHidden = true
+        bottomCloseButton.addTarget(self, action: #selector(tappedBottomCloseButton), for: .touchUpInside)
+        searchButton.addTarget(self, action: #selector(tappedSearchButton), for: .touchUpInside)
     }
+    
+    @objc private  func tappedSearchButton(){
+        let searchController = SearchViewController()
+        let nav = UINavigationController(rootViewController: searchController)
+        self.present(nav,animated: true,completion: nil)
+    }
+    
+    @objc private func tappedBottomCloseButton(){
+        UIView.animate(withDuration: 0.2) {
+            self.bottomVideoViewBottom.constant = -150
+            self.view.layoutIfNeeded()
+        } completion: { _ in
+            self.bottomVideoView.isHidden = true
+            self.selectedItem = nil
+        }
+
+    }
+}
+//MARK: -API通信
+extension VideoListViewController{
     private func fetchYoutubeSearchInfo(){
         let params = ["q":"reborn katekyo"]
         
@@ -60,6 +130,8 @@ class VideoListViewController: UIViewController {
     }
     
 }
+
+
 
 // MARK: - scrollViewのDelegateメソッド
 extension VideoListViewController{
@@ -121,24 +193,7 @@ extension VideoListViewController{
     }
     
     
-    private func headerViewEndAnimation(){
-        //途中でスクロールを止めたときの動きを実装
-        
-        if headerTopConstraint.constant < -headerHeightConstraint.constant / 2 {
-            //上に隠す
-            UIView.animate(withDuration: 0.2, delay: 0, usingSpringWithDamping: 0.9, initialSpringVelocity: 0.8, options: []) {
-                self.headerTopConstraint.constant = -self.headerHeightConstraint.constant
-                self.headerView.alpha = 0
-                self.view.layoutIfNeeded() //Animationをつけるときにこれを設定
-            }
-        }else{
-            UIView.animate(withDuration: 0.2, delay: 0, usingSpringWithDamping: 0.9, initialSpringVelocity: 0.8, options: []) {
-                self.headerTopConstraint.constant = 0
-                self.headerView.alpha = 1
-                self.view.layoutIfNeeded() //Animationをつけるときにこれを設定
-            }
-        }
-    }
+
 
 }
 
@@ -150,9 +205,16 @@ extension VideoListViewController:UICollectionViewDelegate,UICollectionViewDataS
         //セルをタップしたときに呼ばれる。
         
         let videoViewController = UIStoryboard(name: "Video", bundle: nil).instantiateViewController(identifier: "VideoViewController")as VideoViewController
-
-        //三項演算子
-        videoViewController.selectedItem  = indexPath.row > 2 ? videoItems[indexPath.row - 1] : videoItems[indexPath.row]
+        if videoItems.count == 0 {
+            videoViewController.selectedItem = nil
+            self.selectedItem = nil
+        }else {
+            //三項演算子
+            let item = indexPath.row > 2 ? videoItems[indexPath.row - 1] : videoItems[indexPath.row]
+            videoViewController.selectedItem = item
+            self.selectedItem = item
+        }
+        bottomVideoView.isHidden = true
         self.present(videoViewController,animated: true,completion: nil)
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -190,6 +252,99 @@ extension VideoListViewController:UICollectionViewDelegate,UICollectionViewDataS
         }
 
     }
+
+
     
-    
+}
+//MARK: Animation関連
+extension VideoListViewController {
+    private func setupGestureRecognize(){
+        //パンジェスチャーとタップジェスチャー
+        let panGesture = UIPanGestureRecognizer(target: self, action: #selector(panBottomVideoView))
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tapBottomVideoView))
+        bottomVideoView.addGestureRecognizer(panGesture)
+        bottomVideoView.addGestureRecognizer(tapGesture)
+        
+    }
+    @objc private func panBottomVideoView(sender:UIPanGestureRecognizer){
+        let move  = sender.translation(in: view)
+        guard let imageView = sender.view else{return}
+        if sender.state == .changed {
+            //動かしている場合
+            imageView.transform = CGAffineTransform(translationX: 0 , y:move.y)
+        }else if sender.state == .ended{
+            UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0.7, options: []) {
+                imageView.transform = .identity//元の位置
+                self.view.layoutIfNeeded()
+            }
+
+        }
+    }
+    @objc private func tapBottomVideoView(){
+        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0.7, options: []) {
+            self.bottomSubscribeView.isHidden = true
+            //Viewのサイズを大きくする
+            self.bottomVideoViewExpandAnimation()
+        } completion: {_ in
+            //Viewのサイズを大きくしたあとに画面遷移する
+            let videoViewController = UIStoryboard(name: "Video", bundle: nil).instantiateViewController(identifier: "VideoViewController") as VideoViewController
+            videoViewController.selectedItem = self.selectedItem
+            self.present(videoViewController,animated: false){
+                //画面遷移後に実行 後ろのViewの大きさを変更
+                self.bottomVideoViewBackToIdentyty()
+            }
+
+        }
+
+        
+    }
+    private func bottomVideoViewExpandAnimation(){
+        let topSafeArea = self.view.safeAreaInsets.top
+        let bottomSafeArea = self.view.safeAreaInsets.bottom
+        //bottomVideoView
+        bottomVideoViewLeading.constant = 0
+        bottomViedeoViewTraling.constant = 0
+        bottomVideoViewBottom.constant = -bottomSafeArea
+        bottomVideoViewHeight.constant = self.view.frame.height - topSafeArea
+        
+        //bottomVideoImageView
+        bottomVideoImageWidth.constant = view.frame.width
+        bottomVideoImageHeight.constant = 280
+        
+        self.tabBarController?.tabBar.isHidden = true
+        self.view.layoutIfNeeded()
+    }
+    private func bottomVideoViewBackToIdentyty(){
+        //bottomVideoView
+        bottomVideoViewLeading.constant = 12
+        bottomViedeoViewTraling.constant = 12
+        bottomVideoViewBottom.constant = 55
+        bottomVideoViewHeight.constant = 70
+        
+        //bottomVideoImageView
+        bottomVideoImageWidth.constant = 150
+        bottomVideoImageHeight.constant = 70
+        
+        bottomVideoView.isHidden = true
+        self.tabBarController?.tabBar.isHidden = false
+    }
+    private func headerViewEndAnimation(){
+        //途中でスクロールを止めたときの動きを実装
+        
+        if headerTopConstraint.constant < -headerHeightConstraint.constant / 2 {
+            //上に隠す
+            UIView.animate(withDuration: 0.2, delay: 0, usingSpringWithDamping: 0.9, initialSpringVelocity: 0.8, options: []) {
+                self.headerTopConstraint.constant = -self.headerHeightConstraint.constant
+                self.headerView.alpha = 0
+                self.view.layoutIfNeeded() //Animationをつけるときにこれを設定
+            }
+        }else{
+            UIView.animate(withDuration: 0.2, delay: 0, usingSpringWithDamping: 0.9, initialSpringVelocity: 0.8, options: []) {
+                self.headerTopConstraint.constant = 0
+                self.headerView.alpha = 1
+                self.view.layoutIfNeeded() //Animationをつけるときにこれを設定
+            }
+        }
+    }
+
 }
