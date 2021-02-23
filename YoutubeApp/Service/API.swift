@@ -20,7 +20,7 @@ class API{
     private let baseUrl = "https://www.googleapis.com/youtube/v3/"
     func request<T:Decodable>(path :PathType,params:[String:Any],type:T.Type,completion:@escaping (T) -> Void){
 
-        let path = path.rawValue //rawValueはStringに変換してくれる
+        let path = path.rawValue //rawValueはStringに変換してくれる！
         let url = baseUrl + path + "?"
         var params = params
         params["key"] = "AIzaSyCxgMb9ErrplXhasAXVKCK2nW_otYbNSEs"
